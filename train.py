@@ -27,25 +27,25 @@ def prepare_train(numerical_features, categorical_features):
     return clf
 
 def evaluation(X_test, y_test, clf):
-    # Predictions
     y_pred = clf.predict(X_test)
     y_proba = clf.predict_proba(X_test)[:, 1]  # for ROC AUC
 
     print("Accuracy:", accuracy_score(y_test, y_pred))
     print(classification_report(y_test, y_pred))
-
     print("ROC AUC:", roc_auc_score(y_test, y_proba))
 
 
 if __name__ == "__main__":
-    df = pd.read_csv('../data/secondary_data.csv', delimiter=';')
+    df = pd.read_csv('data/secondary_data.csv', delimiter=';')
+
+    df.columns = df.columns.str.lower().str.replace('-', '_')
 
     numerical = df.select_dtypes(include=["float64"]).columns.tolist()
     categorical = df.select_dtypes(include=["object"]).columns.tolist()
     categorical.remove("class")  # Remove target variable
 
     # Remove columns with lots of missing values
-    cols = ['stem-root', 'veil-type', 'veil-color', 'spore-print-color']
+    cols = ['stem_root', 'veil_type', 'veil_color', 'spore_print_color']
     categorical = list(set(categorical) - set(cols))
     df.drop(cols, inplace=True, axis=1)
     df.fillna("unknown", inplace=True)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     print("Test")
     evaluation(X_test, y_test, clf)
 
-    with open('../models/model.pkl', 'wb') as f:
+    with open('models/model.pkl', 'wb') as f:
         pickle.dump(clf, f)
 
 
