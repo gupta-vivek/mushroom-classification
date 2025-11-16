@@ -1,6 +1,9 @@
 ## Mushroom Classification
 
-Machine learning project that trains a classifier to predict whether a mushroom is edible or poisonous.
+Machine learning project that trains a classifier to predict whether a mushroom is edible or poisonous. The dataset used for training includes 61069 hypothetical mushrooms with caps based on 173 species (353 mushrooms
+	per species). Each mushroom is identified as definitely edible, definitely poisonous, or of 
+	unknown edibility and not recommended (the latter class was combined with the poisonous class).
+	Of the 20 variables, 17 are nominal and 3 are metrical. More information about the dataset can be found in the metadata file present in the data directory.
 
 ### Project Structure
 
@@ -28,7 +31,7 @@ Machine learning project that trains a classifier to predict whether a mushroom 
 uv sync
 ```
 
-### Training a Model
+### Training the Model
 
 The training script reads `data/secondary_data.csv`,performs preprocessing, trains a decision tree model within a pipeline, evaluates it, and saves the artifact to `models/model.pkl`.
 
@@ -39,7 +42,6 @@ uv run train.py
 
 ### Running the API
 
-1) Run `predict.py`:
 ```bash
 uv run predict.py
 ```
@@ -51,22 +53,22 @@ Endpoint:
 Request schema:
 ```json
 {
-  "cap_diameter": 15.26,
-  "stem_height": 16.95,
-  "stem_width": 17.09,
-  "gill_color": "w",
-  "does_bruise_or_bleed": "f",
-  "stem_surface": "y",
-  "cap_shape": "x",
-  "habitat": "d",
-  "gill_attachment": "e",
-  "season": "w",
-  "ring_type": "g",
-  "cap_surface": "g",
-  "cap_color": "o",
-  "has_ring": "t",
-  "gill_spacing": "unknown",
-  "stem_color": "w"
+    "cap_diameter": 15.26,
+    "stem_height": 16.95,
+    "stem_width": 17.09,
+    "gill_color": "w",
+    "does_bruise_or_bleed": "f",
+    "stem_surface": "y",
+    "cap_shape": "x",
+    "habitat": "d",
+    "gill_attachment": "e",
+    "season": "w",
+    "ring_type": "g",
+    "cap_surface": "g",
+    "cap_color": "o",
+    "has_ring": "t",
+    "gill_spacing": "unknown",
+    "stem_color": "w"
 }
 ```
 
@@ -79,22 +81,24 @@ Response example:
 ```
 
 ### Testing the API
-
-Use the included `test.py` to send a sample request:
 ```bash
 uv run test.py
 ```
 
 ### Docker
-
-A `Dockerfile` is provided and uses `uv` to install dependencies and runs the API with Uvicorn.
-
-Build the image:
 ```bash
 docker build -t mushroom-classification .
-```
-
-Run the container (maps port 9696):
-```bash
 docker run --rm -p 9696:9696 mushroom-classification
 ```
+
+### Cloud deployment
+```bash
+# for other OS, please check https://fly.io/docs/flyctl/install/
+
+curl -L https://fly.io/install.sh | sh
+
+fly auth signup
+fly launch --generate-name
+fly deploy
+```
+[Cloud deployment screenshots can be found in the images folder.]

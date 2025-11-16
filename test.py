@@ -1,7 +1,7 @@
 import requests
 
 url = 'http://localhost:9696/predict'
-# url = 'https://mlzoomcamp-flask-uv.fly.dev/predict'
+# url = 'https://mushroom-classification.fly.dev/predict'
 
 # Sample Data
 sample_data = {
